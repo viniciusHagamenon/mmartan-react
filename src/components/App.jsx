@@ -2,7 +2,7 @@ import React from 'react'
 import './App.scss'
 
 import Header from './shared/Header'
-import ProductsList from './ProductsList'
+import ProductsList from './products/ProductsList'
 
 import ProductsStore from '../stores/ProductsStore'
 

@@ -47,10 +47,12 @@ class ProductStore {
   }
 
   @action setSearch(search) {
+    this.setPage(1) // reset to first page
     this.search = search
   }
 
   @action setPageSize(pageSize) {
+    this.setPage(1) // reset to first page
     this.pageSize = pageSize
   }
 
@@ -58,7 +60,7 @@ class ProductStore {
     this.page = page
   }
 
-  @computed get pagesTotal() {
+  @computed get totalPages() {
     return Math.ceil(this.totalProducts / this.pageSize)
   }
 

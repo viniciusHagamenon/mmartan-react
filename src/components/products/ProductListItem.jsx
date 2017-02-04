@@ -12,18 +12,18 @@ class ProductListItem extends Component {
 
     return (
       <li className="product-item">
-        <div className="product-images">
+        <div className="product-item-images">
           {product.images.map(image => <img key={image.id} src={image.image} alt="" />)}
         </div>
-        <div className="product-description">
-          <h2 className="product-title">{product.name}</h2>
-          <span className="product-category">{product.category} - {product.size}</span>
+        <div className="product-item-description">
+          <h2 className="product-item-description-title">{product.name}</h2>
+          <span className="product-item-description-category">{product.category} - {product.size}</span>
         </div>
-        <div className="product-price">
-          <span className="product-old-price">
+        <div className="product-item-price">
+          <span className="product-item-price-old">
             <span className="line-through">{this.toMoney(product.price)}</span> por&nbsp;
           </span>
-          <span className="product-new-price">{this.toMoney(product.discountPrice)}</span>
+          <span className="product-item-price-new">{this.toMoney(product.discountPrice)}</span>
         </div>
       </li>
     )

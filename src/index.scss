@@ -1,3 +1,6 @@
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome";
+
 * {
   box-sizing: border-box;
 }
@@ -10,7 +13,32 @@ html, body {
 }
 
 .container {
-  max-width: 1040px;
+  width: 100%;
+  max-width: 1080px;
   margin: 0 auto;
   padding: 0 20px;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+
+  padding: 5px 30px 5px 15px;
+  height: 40px;
+  font-size: 16px;
+  border-radius: 3px;
+  border: 1px solid lightgray;
+  background: url('./images/down-arrow.png') center right 8px no-repeat;
+}
+
+img {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
+  height: auto;
 }

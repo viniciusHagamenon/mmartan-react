@@ -1,36 +1,58 @@
 import React, { Component, PropTypes } from 'react'
-
-import { observable, action } from 'mobx'
 import { observer } from 'mobx-react'
 
 import './Header.scss'
+import logo from '../../images/mmartan.png'
 
 @observer
 class Header extends Component {
-  @observable search = ''
+  clearSearch = () => {
+    this.props.productsStore.setSearch('')
+  }
 
-  @action updateSearch = (event) => {
-    this.search = event.target.value
-    this.props.productsStore.setSearch(this.search)
+  updateSearch = (event) => {
+    const search = event.target.value
+    this.props.productsStore.setSearch(search)
+  }
+
+  renderClearButton = () => {
+    const { search } = this.props.productsStore
+
+    if (!search) {
+      return false
+    }
+
+    return (
+      <button onClick={this.clearSearch} className="header-search-clear">
+        <i className="fa fa-times-circle" />
+      </button>
+    )
   }
 
   render() {
+    const { search } = this.props.productsStore
+
     return (
       <div>
         <div className="header">
           <a href="" className="header-logo">
-            <img src="/images/mmartan.png" alt="mmartan logo" />
+            <img src={logo} alt="mmartan logo" />
           </a>
-          <input
-            type="text"
-            name="search"
-            className="header-search"
-            placeholder="Buscar"
-            onChange={this.updateSearch}
-          />
+          <div className="header-search">
+            <i className="fa fa-search header-search-icon" />
+            <input
+              type="text"
+              name="search"
+              className="header-search-input"
+              placeholder="Buscar"
+              onChange={this.updateSearch}
+              value={search}
+            />
+            {this.renderClearButton()}
+          </div>
         </div>
         <div className="page-title">
-          <span>{this.search || 'Produtos'}</span>
+          <span>{search || 'Produtos'}</span>
         </div>
       </div>
     )

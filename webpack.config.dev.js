@@ -49,7 +49,12 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         use: [
-          'babel-loader',
+          {
+            loader: 'babel-loader',
+            query: {
+              cacheDirectory: true,
+            },
+          },
         ],
         exclude: /node_modules/,
       },
@@ -59,7 +64,26 @@ module.exports = {
           'style-loader',
           'css-loader',
           'postcss-loader',
+          'resolve-url-loader',
           'sass-loader',
+        ],
+      },
+      {
+        test: /\.(jpe?g|png|gif|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        use: [
+          'file-loader',
+        ],
+      },
+      {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        use: [
+          {
+            loader: 'url-loader',
+            query: {
+              limit: 10000,
+              mimetype: 'application/font-woff',
+            },
+          },
         ],
       },
     ],
