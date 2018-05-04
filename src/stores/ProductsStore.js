@@ -1,4 +1,4 @@
-import { observable, action, observe, computed } from 'mobx'
+import { observable, action, computed, autorun } from 'mobx'
 import axios from 'axios'
 
 import Product from '../models/Product'
@@ -16,64 +16,74 @@ class ProductStore {
   constructor() {
     this.setFetching(true)
 
-    axios.get(`${API_BASE}products?pageSize=${this.pageSize}&page=${this.page}`)
-      .then((response) => {
+    axios
+      .get(`${API_BASE}products?pageSize=${this.pageSize}&page=${this.page}`)
+      .then(response => {
         const result = response.data
 
         this.setTotalProducts(result.count)
         this.setProductsFromJSON(result.data)
         this.setFetching(false)
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err)
         this.setFetching(false)
       })
 
-    observe(this, 'search', this.doUpdate)
-    observe(this, 'pageSize', this.doUpdate)
-    observe(this, 'page', this.doUpdate)
+    autorun(this.doUpdate)
   }
 
-  @action setFetching(fetching) {
+  @action
+  setFetching(fetching) {
     this.isFetching = fetching
   }
 
-  @action setTotalProducts(total) {
+  @action
+  setTotalProducts(total) {
     this.totalProducts = total
   }
 
-  @action setProductsFromJSON(products) {
+  @action
+  setProductsFromJSON(products) {
     this.products = products.map(product => Product.fromJS(this, product))
   }
 
-  @action setSearch(search) {
+  @action
+  setSearch(search) {
     this.setPage(1) // reset to first page
     this.search = search
   }
 
-  @action setPageSize(pageSize) {
+  @action
+  setPageSize(pageSize) {
     this.setPage(1) // reset to first page
     this.pageSize = pageSize
   }
 
-  @action setPage(page) {
+  @action
+  setPage(page) {
     this.page = page
   }
 
-  @computed get totalPages() {
+  @computed
+  get totalPages() {
     return Math.ceil(this.totalProducts / this.pageSize)
   }
 
-  @action doUpdate = () => {
-    axios.get(
-      `${API_BASE}products?search=${this.search}&pageSize=${this.pageSize}&page=${this.page}`)
-      .then((response) => {
+  doUpdate = () => {
+    axios
+      .get(
+        `${API_BASE}products?search=${this.search}&pageSize=${
+          this.pageSize
+        }&page=${this.page}`
+      )
+      .then(response => {
         const result = response.data
 
         this.setTotalProducts(result.count)
         this.setProductsFromJSON(result.data)
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err)
       })
   }
